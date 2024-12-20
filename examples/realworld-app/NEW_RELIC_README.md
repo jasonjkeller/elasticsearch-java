@@ -117,15 +117,16 @@ curl --location 'http://localhost:8080/api/profiles/username' \
 
 #### Follow User Profile [POST]
 
-Using the `token` for a specific user and a request parameter (i.e. `username2`) for a different user:
+Using the `token` for a specific user and a path variable (i.e. `username2`) for a different user:
 ```shell
 curl --location --request POST 'http://localhost:8080/api/profiles/username2/follow' \
 --header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......' \
 --data ''
 ```
+
 #### Unfollow User Profile [DELETE]
 
-Using the `token` for a specific user and a request parameter (i.e. `username2`) for a different user:
+Using the `token` for a specific user and a path variable (i.e. `username2`) for a different user:
 ```shell
 curl --location --request DELETE 'http://localhost:8080/api/profiles/username2/follow' \
 --header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......' \
@@ -144,6 +145,7 @@ curl --location 'http://localhost:8080/api/tags'
 
 ### Create New Article For A Specific User [POST]
 
+Using the `token` for a specific user:
 ```shell
 curl --location 'http://localhost:8080/api/articles' \
 --header 'Content-Type: application/json' \
@@ -162,3 +164,119 @@ curl --location 'http://localhost:8080/api/articles' \
 }'
 ```
 
+### Find Article By Slug [GET]
+
+Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
+```shell
+curl --location 'http://localhost:8080/api/articles/title' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......'
+```
+
+### Find Articles By Request Parameters [GET]
+
+Using the `token` for a specific user and a request parameter (i.e. `?tag=foo`):
+```shell
+curl --location 'http://localhost:8080/api/articles?tag=foo' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......'
+```
+
+### Generate Article Feed [GET]
+
+Using the `token` for a specific user:
+```shell
+curl --location 'http://localhost:8080/api/articles/feed' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......'
+```
+
+### Mark Article As Favorite [POST]
+
+Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
+```shell
+curl --location --request POST 'http://localhost:8080/api/articles/title/favorite' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......' \
+--data ''
+```
+
+### Delete Article As Favorite [DELETE]
+
+Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
+```shell
+curl --location --request DELETE 'http://localhost:8080/api/articles/title/favorite' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......' \
+--data ''
+```
+
+### Update Article [PUT]
+
+Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
+```shell
+curl --location --request PUT 'http://localhost:8080/api/articles/title' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......' \
+--data '{
+    "article": {
+        "title": "title",
+        "description": "description",
+        "body": "body"
+    }
+}'
+```
+
+### Delete Article [DELETE]
+
+Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
+```shell
+curl --location --request DELETE 'http://localhost:8080/api/articles/title' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......' \
+--data ''
+```
+
+### Add Comment To Article [POST]
+
+Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
+```shell
+curl --location 'http://localhost:8080/api/articles/title/comments' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......' \
+--data '{
+    "comment": {
+        "body": "comment"
+    }
+}'
+```
+
+### Find All Comments By Article [GET]
+
+Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
+```shell
+curl --location 'http://localhost:8080/api/articles/title/comments' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......'
+```
+
+This will return a payload with a comment `id` that will be required to delete the comment (see example below).
+
+```json
+{
+    "comment": {
+        "id": -18660043067274,
+        "createdAt": "2024-12-20T20:16:29.833",
+        "updatedAt": "2024-12-20T20:16:29.833",
+        "body": "comment",
+        "author": {
+            "username": "username",
+            "email": "username@mail.com",
+            "bio": "bio",
+            "following": false
+        }
+    }
+}
+```
+
+### Delete Comment From Article [DELETE]
+
+Using the `token` for a specific user and a `slug` path variable (i.e. `title`) and `commentId` path variable (i.e. `-18660043067274`):
+```shell
+curl --location --request DELETE 'http://localhost:8080/api/articles/title/comments/-18660043067274' \
+--header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......' \
+--data ''
+```
