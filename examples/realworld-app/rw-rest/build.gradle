@@ -18,5 +18,10 @@ repositories {
 dependencies {
   implementation('org.springframework.boot:spring-boot-starter-web:3.2.0')
   implementation('realworldapp:rw-database')
+
+  // Open Telemetry
+  implementation(platform("io.opentelemetry:opentelemetry-bom:1.45.0"))
+  implementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure")
+  implementation("io.opentelemetry:opentelemetry-exporter-otlp")
 }
 

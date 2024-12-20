@@ -27,6 +27,8 @@ import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdk;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.message.BasicHeader;
@@ -37,10 +39,13 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
-import static realworld.constant.Constants.*;
+import static realworld.constant.Constants.ARTICLES;
+import static realworld.constant.Constants.COMMENTS;
+import static realworld.constant.Constants.USERS;
 
 @Configuration
 public class ElasticClient {
+    private static final OpenTelemetry openTelemetry = AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
 
     @Value("${elasticsearch.server.url}")
     private String serverUrl;
@@ -58,11 +63,11 @@ public class ElasticClient {
 
         // Create the low-level client
         RestClient restClient = RestClient
-            .builder(HttpHost.create(serverUrl))
-            .setDefaultHeaders(new Header[]{
-                new BasicHeader("Authorization", "ApiKey " + apiKey)
-            })
-            .build();
+                .builder(HttpHost.create(serverUrl))
+                .setDefaultHeaders(new Header[] {
+                        new BasicHeader("Authorization", "ApiKey " + apiKey)
+                })
+                .build();
 
         // The transport layer of the Elasticsearch client requires a json object mapper to
         // define how to serialize/deserialize java objects. The mapper can be customized by adding
@@ -70,12 +75,12 @@ public class ElasticClient {
         // JavaTimeModule is added to provide support for java 8 Time classes, which the mapper itself does
         // not support.
         ObjectMapper mapper = JsonMapper.builder()
-            .addModule(new JavaTimeModule())
-            .build();
+                .addModule(new JavaTimeModule())
+                .build();
 
         // Create the transport with the Jackson mapper
         ElasticsearchTransport transport = new RestClientTransport(
-            restClient, new JacksonJsonpMapper(mapper));
+                restClient, new JacksonJsonpMapper(mapper));
 
         // Create the API client
         ElasticsearchClient esClient = new ElasticsearchClient(transport);
@@ -99,7 +104,7 @@ public class ElasticClient {
         BooleanResponse indexRes = esClient.indices().exists(ex -> ex.index(index));
         if (!indexRes.value()) {
             esClient.indices().create(c -> c
-                .index(index));
+                    .index(index));
         }
     }
 
@@ -118,12 +123,12 @@ public class ElasticClient {
         BooleanResponse indexRes = esClient.indices().exists(ex -> ex.index(index));
         if (!indexRes.value()) {
             esClient.indices().create(c -> c
-                .index(index)
-                .mappings(m -> m
-                    .properties("createdAt", p -> p
-                        .date(d -> d.format("strict_date_optional_time")))
-                    .properties("updatedAt", p -> p
-                        .date(d -> d.format("strict_date_optional_time")))));
+                    .index(index)
+                    .mappings(m -> m
+                            .properties("createdAt", p -> p
+                                    .date(d -> d.format("strict_date_optional_time")))
+                            .properties("updatedAt", p -> p
+                                    .date(d -> d.format("strict_date_optional_time")))));
 
         }
     }
