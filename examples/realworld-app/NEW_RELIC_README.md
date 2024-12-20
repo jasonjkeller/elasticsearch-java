@@ -135,7 +135,7 @@ curl --location --request DELETE 'http://localhost:8080/api/profiles/username2/f
 
 ### `TagsController`
 
-### Find All Tags [GET]
+#### Find All Tags [GET]
 
 ```shell
 curl --location 'http://localhost:8080/api/tags'
@@ -143,7 +143,7 @@ curl --location 'http://localhost:8080/api/tags'
 
 ### `ArticleController`
 
-### Create New Article For A Specific User [POST]
+#### Create New Article For A Specific User [POST]
 
 Using the `token` for a specific user:
 ```shell
@@ -164,7 +164,7 @@ curl --location 'http://localhost:8080/api/articles' \
 }'
 ```
 
-### Find Article By Slug [GET]
+#### Find Article By Slug [GET]
 
 Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
 ```shell
@@ -172,7 +172,7 @@ curl --location 'http://localhost:8080/api/articles/title' \
 --header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......'
 ```
 
-### Find Articles By Request Parameters [GET]
+#### Find Articles By Request Parameters [GET]
 
 Using the `token` for a specific user and a request parameter (i.e. `?tag=foo`):
 ```shell
@@ -180,7 +180,7 @@ curl --location 'http://localhost:8080/api/articles?tag=foo' \
 --header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......'
 ```
 
-### Generate Article Feed [GET]
+#### Generate Article Feed [GET]
 
 Using the `token` for a specific user:
 ```shell
@@ -188,7 +188,7 @@ curl --location 'http://localhost:8080/api/articles/feed' \
 --header 'Authorization: Token eyJhbGciOiJIUzI1NiJ9.......'
 ```
 
-### Mark Article As Favorite [POST]
+#### Mark Article As Favorite [POST]
 
 Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
 ```shell
@@ -197,7 +197,7 @@ curl --location --request POST 'http://localhost:8080/api/articles/title/favorit
 --data ''
 ```
 
-### Delete Article As Favorite [DELETE]
+#### Delete Article As Favorite [DELETE]
 
 Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
 ```shell
@@ -206,7 +206,7 @@ curl --location --request DELETE 'http://localhost:8080/api/articles/title/favor
 --data ''
 ```
 
-### Update Article [PUT]
+#### Update Article [PUT]
 
 Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
 ```shell
@@ -222,7 +222,7 @@ curl --location --request PUT 'http://localhost:8080/api/articles/title' \
 }'
 ```
 
-### Delete Article [DELETE]
+#### Delete Article [DELETE]
 
 Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
 ```shell
@@ -231,7 +231,7 @@ curl --location --request DELETE 'http://localhost:8080/api/articles/title' \
 --data ''
 ```
 
-### Add Comment To Article [POST]
+#### Add Comment To Article [POST]
 
 Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
 ```shell
@@ -245,7 +245,7 @@ curl --location 'http://localhost:8080/api/articles/title/comments' \
 }'
 ```
 
-### Find All Comments By Article [GET]
+#### Find All Comments By Article [GET]
 
 Using the `token` for a specific user and a `slug` path variable (i.e. `title`):
 ```shell
@@ -272,7 +272,7 @@ This will return a payload with a comment `id` that will be required to delete t
 }
 ```
 
-### Delete Comment From Article [DELETE]
+#### Delete Comment From Article [DELETE]
 
 Using the `token` for a specific user and a `slug` path variable (i.e. `title`) and `commentId` path variable (i.e. `-18660043067274`):
 ```shell
